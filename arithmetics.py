@@ -1,3 +1,5 @@
+from copy import copy
+
 class Monomial:
     def __init__(self, factor = 0, terms = {}):
         self.factor = factor
@@ -7,6 +9,10 @@ class Monomial:
         return str(self.factor) + "".join([str(var)+"^"+str(power) for var, power in self.terms.items()])
 
     def __mul__(self, other):
+        if isinstance(other, int):
+            tmp = copy(self)
+            tmp.factor *= other
+            return tmp
         factor = self.factor * other.factor
         terms = self.terms.copy()
         for var, power in other.terms.items():
@@ -30,7 +36,9 @@ class Monomial:
 
     def __eq__(self, other):
         return self.terms == other.terms
-
+    
+    def same(self, other):
+        return self.terms == other.terms and self.factor == other.factor
 
 class Polynomial:
     def __init__(self, terms = []):
@@ -64,7 +72,7 @@ class Polynomial:
                 # if terms[index] == Monomial():
                 #     terms.pop(index) 
             else:
-                terms.append(-term)
+                terms.append(term*-1)
 
         return Polynomial(list(filter( lambda term : term.factor !=0, terms )))
 
@@ -80,7 +88,7 @@ class Polynomial:
         return Rational(self, other)
 
     def __eq__(self, other):
-        if self.degree != other.degree:
+        if self.degree() != other.degree():
             return False
         
         for term in other.terms:
@@ -91,8 +99,8 @@ class Polynomial:
 
 class Rational:
     def __init__(self, numerator, denominator):
-        self.numerator = numerator.copy()
-        self.denominator = denominator.copy()
+        self.numerator = copy(numerator)
+        self.denominator = copy(denominator)
 
     def __str__(self):
         num = str(self.numerator)

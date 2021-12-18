@@ -1,14 +1,14 @@
 class Monomial:
     def __init__(self, factor = 0, terms = {}):
         self.factor = factor
-        self.terms = terms
+        self.terms = terms.copy()
     
     def __str__(self):
         return str(self.factor) + "".join([str(var)+"^"+str(power) for var, power in self.terms.items()])
 
     def __mul__(self, other):
         factor = self.factor * other.factor
-        terms = self.terms
+        terms = self.terms.copy()
         for var, power in other.terms.items():
             if var in terms:
                 terms[var] += power
@@ -34,7 +34,7 @@ class Monomial:
 
 class Polynomial:
     def __init__(self, terms = []):
-        self.terms = terms
+        self.terms = terms.copy()
 
     def degree(self):
         return len(self.terms)
@@ -43,7 +43,7 @@ class Polynomial:
         return " + ".join([str(term) for term in self.terms])
 
     def __add__(self, other):
-        terms = self.terms
+        terms = self.terms.copy()
         for term in other.terms:
             if term in terms:
                 terms[terms.index(term)] += term
@@ -53,10 +53,10 @@ class Polynomial:
             else:
                 terms.append(term)
 
-        return Polynomial(list(filter( lambda term : term.factor !=0, terms )))
+        return Polynomial(list(filter( lambda term : term.factor != 0, terms )))
 
     def __sub__(self, other):
-        terms = self.terms
+        terms = self.terms.copy()
         for term in other.terms:
             if term in terms:
                 terms[terms.index(term)] -= term
@@ -72,7 +72,7 @@ class Polynomial:
         poly = Polynomial()
         for term1 in self.terms:
             for term2 in other.terms:
-                poly += term1*term2
+                poly += Polynomial([term1*term2])
 
         return poly
 
@@ -91,8 +91,8 @@ class Polynomial:
 
 class Rational:
     def __init__(self, numerator, denominator):
-        self.numerator = numerator
-        self.denominator = denominator
+        self.numerator = numerator.copy()
+        self.denominator = denominator.copy()
 
     def __str__(self):
         num = str(self.numerator)

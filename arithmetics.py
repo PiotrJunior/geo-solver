@@ -92,8 +92,8 @@ class Polynomial:
             return False
         
         for term in other.terms:
-            if term not in self.terms:
-                return False
+            if term not in self.terms or self.terms[self.terms.index(term)].factor != term.factor:
+                    return False
         return True
         
 

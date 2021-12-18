@@ -18,6 +18,18 @@ class Monomial:
                 terms.pop(var)
         return Monomial(factor, terms)
 
+    def __add__(self, other):
+        if self.terms != other.terms:
+            raise Exception("Monomials with diffrent terms")
+        return Monomial(self.factor + other.factor, self.terms)
+
+    def __sub__(self, other):
+        if self.terms != other.terms:
+            raise Exception("Monomials with diffrent terms")
+        return Monomial(self.factor - other.factor, self.terms)
+
+    def __eq__(self, other):
+        return self.terms == other.terms
 
 
 class Polynomial:
@@ -34,27 +46,27 @@ class Polynomial:
         terms = self.terms
         for term in other.terms:
             if term in terms:
-                index = terms.index(term)
-                terms[index] += term
-                if terms[index] == Monomial():
-                    terms.pop(index) 
+                terms[terms.index(term)] += term
+                # index = terms.index(term)
+                # if terms[index] == Monomial():
+                    # terms.pop(index) 
             else:
                 terms.append(term)
 
-        return Polynomial(terms)
+        return Polynomial(list(filter( lambda term : term.factor !=0, terms )))
 
     def __sub__(self, other):
         terms = self.terms
         for term in other.terms:
             if term in terms:
-                index = terms.index(term)
-                terms[index] -= term
-                if terms[index] == Monomial():
-                    terms.pop(index) 
+                terms[terms.index(term)] -= term
+                # index = terms.index(term)
+                # if terms[index] == Monomial():
+                #     terms.pop(index) 
             else:
                 terms.append(-term)
 
-        return Polynomial(terms)
+        return Polynomial(list(filter( lambda term : term.factor !=0, terms )))
 
     def __mul__(self, other):
         poly = Polynomial()
@@ -115,6 +127,10 @@ class Rational:
         return self.numerator * other.denominator == self.denominator * other.numerator
 
 
-mono1 = Monomial(3, {"a":4, "b":1, "d":2})
-mono2 = Monomial(3, {"c":2, "b":3, "d":-2})
-print(mono1*mono2)
+# a = Rational( Polynomial([Monomial(1, {"a":1})]), Polynomial([Monomial(1, {})]) )
+# b = Rational( Polynomial([Monomial(1, {"b":1})]), Polynomial([Monomial(1, {})]) )
+# a = Polynomial([ Monomial(1, {"a":1}) ])
+# b = Polynomial([ Monomial(1, {"b":1}) ])
+# mono2 = Monomial(3, {"c":2, "b":3, "d":-2})
+# c = b + b
+# print(c + b)

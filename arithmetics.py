@@ -3,7 +3,15 @@ from copy import copy
 from typing import Dict, List, Union
 
 class Monomial:
-    def __init__(self, factor : Union[float, int] = 0.0, terms : Dict[str, float] = {}) -> None:
+    """ Monomial class
+    """
+    def __init__(self, factor : Union[float, int] = 0, terms : Dict[str, float] = {}) -> None:
+        """Init Monomial
+
+        Args:
+            factor (float | int, optional): Factor of the monomial. Defaults to 0.
+            terms (Dict[str, float], optional): Dict of terms in "var" : value format. Defaults to {}.
+        """
         self.factor = factor
         self.terms = terms.copy()
     
@@ -40,14 +48,32 @@ class Monomial:
         return self.terms == other.terms
 
     def same(self, other : Monomial) -> bool:
+        """Checks if Monomials are the same including factor
+
+        Args:
+            other (Monomial): Monomial to check
+
+        Returns:
+            bool: True when are the same
+        """
         return self.terms == other.terms and self.factor == other.factor
 
 
 class Polynomial:
     def __init__(self, terms : List[Monomial] = []) -> None:
+        """Init Polynomial
+
+        Args:
+            terms (List[Monomial], optional): List of Monomials. Defaults to [].
+        """
         self.terms = terms.copy()
 
     def degree(self) -> int:
+        """Returns degree (number of elements) of Polynomial
+
+        Returns:
+            int: degree of Polynomial
+        """
         return len(self.terms)
 
     def __str__(self) -> str:
@@ -102,6 +128,12 @@ class Polynomial:
 
 class Rational:
     def __init__(self, numerator : Polynomial, denominator : Polynomial) -> None:
+        """Init Rational function (Polynomial divided by Polynomial)
+
+        Args:
+            numerator (Polynomial): numerator of this Rational function
+            denominator (Polynomial): denominator of this Rational function
+        """
         self.numerator = copy(numerator)
         self.denominator = copy(denominator)
 

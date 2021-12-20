@@ -7,6 +7,7 @@ class TestMonomial(unittest.TestCase):
         m1 = Monomial(2, {"a":3, "b":2})
         m2 = Monomial(3, {"b":3, "c":1})
         self.assertEqual(m1 * m2, Monomial(6, {"a":3, "b":5, "c":1}))
+        self.assertEqual(m1 * 2, Monomial(2, {"a":3, "b":2}))
     
     def test_monomial_add(self):
         m1 = Monomial(2, {"a":3, "b":2})

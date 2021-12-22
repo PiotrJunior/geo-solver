@@ -84,7 +84,7 @@ class Monomial:
 class Polynomial:
     def __init__(self, terms : List[Monomial] = []) -> None:
         if isinstance(terms, list):
-            self.terms = [x if isinstance else Monomial(x) for x in terms]
+            self.terms = [x if isinstance(x, Monomial) else Monomial(x) for x in terms]
         elif isinstance(terms, Monomial):
             self.terms = [terms]
         else:
